@@ -41,14 +41,16 @@ include 'afterLogin.php';
 			</div>
 			<div class="col-5">
 				<?php
-				for ($i=0; $i < 7; $i++) { 
+				for ($i=0; $i < 7; $i++) {
+					$weekFullName = $weekName[$i];
+					$check = $WeekData->$weekFullName;
 					?>
 						<div class="row">
 							<div class="col">
-								<label><?php echo $weekName[$i];?></label>
+								<label><?php echo $weekFullName;?></label>
 							</div>
 							<div class="col">
-								<input type="checkbox" name="Wname[]" value="<?php echo $weekName[$i];?>">
+								<input type="checkbox" name="Wname[]" value="<?php echo $weekFullName;?>" <?php if($check == 1) echo 'checked';?>>
 							</div>
 						</div>
 					<?php
