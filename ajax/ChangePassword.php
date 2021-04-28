@@ -1,4 +1,5 @@
 <?php
+
 include '../DataBase/dataBaseFunction.php';
 $password = $_POST['newPassword'];
 if(!empty($password)){
