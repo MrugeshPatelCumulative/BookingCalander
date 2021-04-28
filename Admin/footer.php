@@ -53,6 +53,20 @@
 		.catch( err => {
 			// console.error(err.stack);
 		});
+		let questionCounter = 1;
+		function addQuestion(){
+			$('#save').removeClass('d-none');
+			$('#Question').append('<div class="row cont" id="question'+questionCounter+'"><div class="col-3"><lable>question'+questionCounter+'</lable></div><div class="col"><input class="form-control" type="text" name="ques[]" id="ques'+questionCounter+'"></div><div class="col-1" onclick=deleteQuestion("question'+questionCounter+'");><i class="fa fa-trash" aria-hidden="true"></i></div></div>');
+			questionCounter++;
+		}
+		function deleteQuestion(DeleteId) {
+			var e = document.forms["form1"] ;
+			e= e.getElementsByTagName('input');
+			$('#'+DeleteId).remove();
+			if(e.length == 0){
+				$('#save').addClass('d-none');
+			}
+		}
 	</script>
 </footer>
 </html>
