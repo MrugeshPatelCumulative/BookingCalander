@@ -8,10 +8,26 @@ include 'afterLogin.php';
 		<div class="middle-formbox maxbox-width">
 			<div class="row">
 				<div class="col-3">
-					<label>Enter Password</label>
+					<label>Enter Old Password</label>
+				</div>
+				<div class="col-5">
+					<input type="password" name="oldPassword" id="oldPassword" required="">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					<label>Enter New Password</label>
 				</div>
 				<div class="col-5">
 					<input type="password" name="newPassword" id="newPassword" required="">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					<label>ReEnter New Password</label>
+				</div>
+				<div class="col-5">
+					<input type="password" name="renewPassword" id="renewPassword" required="">
 				</div>
 			</div>
 			<div class="row">
