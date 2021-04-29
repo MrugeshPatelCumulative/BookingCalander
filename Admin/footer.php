@@ -53,11 +53,11 @@
 		.catch( err => {
 			// console.error(err.stack);
 		});
-		let questionCounter = 1;
+		let questionCounter = '<?php echo $quCount;?>';
 		function addQuestion(){
-			$('#save').removeClass('d-none');
-			$('#Question').append('<div class="row cont" id="question'+questionCounter+'"><div class="col-3"><lable>question'+questionCounter+'</lable></div><div class="col"><input class="form-control" type="text" name="ques[]" id="ques'+questionCounter+'" required></div><div class="col-1" onclick=deleteQuestion("question'+questionCounter+'");><i class="fa fa-trash" aria-hidden="true"></i></div></div>');
 			questionCounter++;
+			$('#save').removeClass('d-none');
+			$('#Question').append('<div class="row cont" id="question'+questionCounter+'"><div class="col-3"><lable>question</lable></div><div class="col"><input class="form-control" type="text" name="ques['+questionCounter+']" id="ques'+questionCounter+'" required></div><div class="col-1" onclick=deleteQuestion("question'+questionCounter+'");><i class="fa fa-trash" aria-hidden="true"></i></div></div>');
 		}
 		function deleteQuestion(DeleteId) {
 			var e = document.forms["form1"] ;
@@ -66,6 +66,25 @@
 			if(e.length == 0){
 				$('#save').addClass('d-none');
 			}
+		}
+		function deleteFromDatabase(DeleteId){
+			$.ajax({
+				dataType: "json",
+				type: "POST",
+				url: "../ajax/deleteQution.php",
+				data: {DeleteId:DeleteId},
+				async: false,
+				success: function(result) {
+					if(result.Status == true){
+						var e = document.forms["form1"] ;
+						e= e.getElementsByTagName('input');
+						$('#'+DeleteId).remove();
+						if(e.length == 0){
+							$('#save').addClass('d-none');
+						}
+					}
+				}
+			});
 		}
 	</script>
 </footer>
