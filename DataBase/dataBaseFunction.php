@@ -259,4 +259,66 @@ function db_update($table,$set,$where)
     }
     return false;
 }
+function db_insert($table,$table_data)
+{
+
+	$insert_query = "INSERT INTO ".$table." (";
+	if($table_data)
+	{
+		$values = "VALUES (";
+		foreach ($table_data as $key => $value) 
+		{
+			$insert_query.= trim($key).",";
+			$values.="?,";
+		}
+		$insert_query=rtrim($insert_query,",");
+		$values = rtrim($values,",");
+		$insert_query.=") ";
+		$values.=")";
+		$insert_query.=$values;
+		$stmt = $GLOBALS['connection']->prepare($insert_query);
+		$valuexss=[];
+		foreach ($table_data as $key => $value) 
+		{
+			$value=htmlspecialchars($value,ENT_QUOTES | ENT_IGNORE,"UTF-8");
+			array_push($valuexss, $value);
+		}
+		$params = "";
+		foreach ($table_data as $key => $value) 
+		{
+			
+			$param="s";
+			if(gettype($value)=="integer")
+			{
+				$param="i";
+			}
+			if(gettype($value)=="double")
+			{
+				$param="d";
+			}
+			if(gettype($value)=="BLOB")
+			{
+				$param="b";
+			}	
+			$params.=$param;
+		}
+		$bind_names[] = $params;
+		
+		$i=0;
+        foreach ($valuexss as $key => $value) 
+        {
+            $bind_name = 'bind' . $i;
+            $$bind_name = trim($value);
+            $bind_names[] = &$$bind_name;
+            $i++;
+        }
+        $return = call_user_func_array(array($stmt,'bind_param'),$bind_names);
+        if($return==1)
+        {
+        	$stmt->execute();
+        	return true;	
+        }
+	}
+	return false;
+}
 ?>
