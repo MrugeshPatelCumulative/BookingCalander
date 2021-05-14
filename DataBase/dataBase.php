@@ -3,7 +3,7 @@ session_start();
 static $connection;
 $servername = "localhost";
 $username = "root";
-$password = "mrugesh123";
+$password = "";
 $database = "bookingcalander";
 $connection = mysqli_connect($servername,$username,$password,$database);
 

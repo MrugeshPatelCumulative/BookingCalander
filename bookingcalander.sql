@@ -33,7 +33,7 @@ CREATE TABLE `admindata` (
   `AdminName` varchar(20) NOT NULL,
   `AdminPassword` varchar(20) NOT NULL,
   `primaryColor` varchar(7) NOT NULL DEFAULT '#3352ff'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `admindata`
@@ -79,7 +79,7 @@ CREATE TABLE `employequestion` (
   `id` int NOT NULL,
   `EmployeeId` int NOT NULL,
   `question` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `employequestion`
