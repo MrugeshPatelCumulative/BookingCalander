@@ -28,6 +28,7 @@ include 'DataBase/dataBaseFunction.php';
     $Duration = $employeeData[0]['Duration'];
     ?>
     <div class="container-fluid">
+      <button type="button" id="backButton" onclick="gotoMainPage();" style="display:none;"> < Back </button>
       <div class="row">
         <div class="col-5">
           <div class="row">
@@ -70,10 +71,48 @@ include 'DataBase/dataBaseFunction.php';
             </div>
           </div>
         </div>
-        <div class="col=4">
+        <div class="col-4" id="calanderDiv">
           <div id="myCalendar" class="vanilla-calendar"></div>
         </div>
-        <div class="col-3">
+        <div class="col" style="display: none;" id="bookingForm">
+          <form method="POST" action="">
+          <div class="row">
+            <div class="col">
+              <label class="form-control-label">Name</label>
+              <input class="form-control" type="text" name="name">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-control-label">Email</label>
+              <input class="form-control" type="Email" name="email">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label class="form-control-label">Mobile No</label>
+              <input class="form-control" type="text" name="mobile">
+            </div>
+          </div>
+          <?php
+          $selectQuestion = select_where('employequestion',array('EmployeeId'=>1));
+          if($selectQuestion){
+            foreach($selectQuestion as $question){
+              ?>
+              <div class="row">
+                <div class="col">
+                  <label class="form-control-label"><?php echo $question['question'];?></label>
+                  <textarea class="form-control" id="<?php echo $question['id'];?>"></textarea>
+                </div>
+              </div>
+              <?php
+            }
+          }
+          ?>
+          <button class="btn btn-primary" type="button" name="saveData" id="saveData">Book Now</button>
+          </form>
+        </div>
+        <div class="col-3" id="timeDiv">
           <div id="timeButton"></div>
         </div>
       </div>
@@ -195,9 +234,31 @@ $('#timeButton').append(dateArray);
       value = a.value;
       $(a).after('<button class="remove" id="'+id+'" value="'+value+'" onclick="gotoRegister(this.id,this.value)">Confirm</button>');
     }
-    function gotoRegister(){
-      
+    function gotoRegister(time,selectDate){
+      $('#backButton').show();
+      $('#bookingForm').show();
+      $('#calanderDiv').hide();
+      $('#timeDiv').hide();
     }
+    function gotoMainPage(){
+      $('#backButton').hide(); 
+      $('#bookingForm').hide(); 
+      $('#calanderDiv').show(); 
+      $('#timeDiv').show(); 
+    }
+    $('#saveData').on('click',function(){
+      let count = 0;
+      $('.error').html('');
+      $('input:text,textarea').each(function() {
+        if($(this).val() == ''){
+          count++;
+          $(this).after('<span class="error" >Fill it.</span>');
+        }
+      });
+      if(count > 0){
+        return false;
+      }
+    });
   </script>
 </footer>
 </html>
