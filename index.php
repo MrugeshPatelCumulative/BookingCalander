@@ -79,19 +79,19 @@ include 'DataBase/dataBaseFunction.php';
           <div class="row">
             <div class="col">
               <label class="form-control-label">Name</label>
-              <input class="form-control" type="text" name="name">
+              <input class="form-control" type="text" name="name" id="name">
             </div>
           </div>
           <div class="row">
             <div class="col">
               <label class="form-control-label">Email</label>
-              <input class="form-control" type="Email" name="email">
+              <input class="form-control" type="Email" name="email" id="email">
             </div>
           </div>
           <div class="row">
             <div class="col">
               <label class="form-control-label">Mobile No</label>
-              <input class="form-control" type="text" name="mobile">
+              <input class="form-control" type="text" name="mobile" id="mobile">
             </div>
           </div>
           <?php
@@ -255,6 +255,15 @@ $('#timeButton').append(dateArray);
           $(this).after('<span class="error" >Fill it.</span>');
         }
       });
+      let answerArray = [];
+      $('textarea').each(function() {
+        if($(this).val() != ''){
+          answer[$(this).attr('id')] = $(this).attr('value'); 
+        }
+      });
+      let name = $('#name').val();
+      let email = $('#email').val();
+      let mobile = $('#mobile').val();
       if(count > 0){
         return false;
       }
