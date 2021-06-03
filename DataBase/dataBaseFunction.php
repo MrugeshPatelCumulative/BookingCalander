@@ -366,4 +366,76 @@ function db_delete($table,$where)
 	}
 	return false;
 }
+function select_custom($query,$arguments)
+{
+	$arr_results=[];
+		$stmt = $GLOBALS['connection']->prepare($query);
+		$params = "";
+		foreach ($arguments as $key => $value) 
+		{
+			$param="s";
+			if(gettype($value)=="integer")
+			{
+				$param="i";
+			}
+			if(gettype($value)=="double")
+			{
+				$param="d";
+			}
+			if(is_array($value))
+			{
+				$param = "";
+				foreach ($value as $colum) 
+				{
+					$param.="s";
+				}		
+			}
+			$params.=$param;
+		}
+		$bind_names[] = $params;
+		$i=0;
+        foreach ($arguments as $key => $value) 
+        {
+        	if(is_array($value))
+			{		
+				foreach ($value as $colum) 
+				{
+					$bind_name = 'bind' . $i;
+		            $$bind_name = trim($colum);
+		            $bind_names[] = &$$bind_name;
+		            $i++;
+				}		
+			}
+			else
+			{
+	            $bind_name = 'bind' . $i;
+	            $$bind_name = trim($value);
+	            $bind_names[] = &$$bind_name;
+	            $i++;
+        	}
+        }
+        $return = call_user_func_array(array($stmt,'bind_param'),$bind_names);
+        if($return==1)
+        {
+        	$stmt->execute();
+        	$meta = $stmt->result_metadata();
+
+		    while ( $rows = $meta->fetch_field() ) 
+		    {
+		     $parameters[] = &$row[$rows->name]; 
+		    }
+		   call_user_func_array(array($stmt, 'bind_result'), $parameters);
+		   while ( $stmt->fetch() ) 
+		   {
+		      $x = array();
+		      foreach( $row as $key => $val ) 
+		      {
+		         $x[$key] = $val;
+		      }
+		      $arr_results[] = $x;
+		   }
+		   return $arr_results;
+        }
+	return $arr_results;
+}
 ?>

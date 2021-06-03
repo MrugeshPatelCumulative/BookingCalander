@@ -18,11 +18,15 @@ if(!empty($Image)){
 	list($type, $data) = explode(';', $data);
 	list(, $data)      = explode(',', $data);
 	$data = base64_decode($data);
-	$Path = $_SERVER['DOCUMENT_ROOT'].'/BookingCalander/image/'.time().'.png';
+	$Path = $_SERVER['DOCUMENT_ROOT'].'/Mrugesh/BookingCalander/image/'.time().'.png';
 	file_put_contents($Path,$data);
 	$filePath = '../image/'.time().'.png';
 	$set['EmployeeImage'] = $filePath;
 }
+// print_r("StoreLocation: ".$Path);
+// print_r('<br>');
+// print_r("In database: ".$filePath);
+// exit;
 db_update($table,$set,$where);
 header('Location: ../Admin/dashbord.php');
 ?>
