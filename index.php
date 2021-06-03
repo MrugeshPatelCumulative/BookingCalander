@@ -75,7 +75,8 @@ include 'DataBase/dataBaseFunction.php';
           <div id="myCalendar" class="vanilla-calendar"></div>
         </div>
         <div class="col" style="display: none;" id="bookingForm">
-          <form method="POST" action="">
+          <input type="hidden" name="BookedDate" id="BookedDate">
+          <input type="hidden" name="BookedTime" id="BookedTime">
           <div class="row">
             <div class="col">
               <label class="form-control-label">Name</label>
@@ -110,7 +111,6 @@ include 'DataBase/dataBaseFunction.php';
           }
           ?>
           <button class="btn btn-primary" type="button" name="saveData" id="saveData">Book Now</button>
-          </form>
         </div>
         <div class="col-3" id="timeDiv">
           <div id="timeButton"></div>
@@ -239,6 +239,8 @@ $('#timeButton').append(dateArray);
       $('#bookingForm').show();
       $('#calanderDiv').hide();
       $('#timeDiv').hide();
+      $('#BookedDate').val(selectDate);
+      $('#BookedTime').val(time);
     }
     function gotoMainPage(){
       $('#backButton').hide(); 
@@ -258,15 +260,29 @@ $('#timeButton').append(dateArray);
       let answerArray = [];
       $('textarea').each(function() {
         if($(this).val() != ''){
-          answer[$(this).attr('id')] = $(this).attr('value'); 
+          answerArray[$(this).attr('id')] = $(this).val(); 
         }
       });
       let name = $('#name').val();
       let email = $('#email').val();
       let mobile = $('#mobile').val();
+      let selectDate = $('#BookedDate').val();
+      let time = $('#BookedTime').val();
       if(count > 0){
         return false;
       }
+      $.ajax({
+        url: "ajax/bookingAppointment.php",
+        type: 'POST',
+        dataType: "json",
+        data: {answerArray:answerArray,name:name,email:email,mobile:mobile,time:time,selectDate:selectDate},
+        async: false,
+        success: function (data) {
+          if(data == 1){
+            alert('success fully add.');
+          }
+        }
+      });
     });
   </script>
 </footer>
